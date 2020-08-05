@@ -1,12 +1,15 @@
 import 'package:expandable/expandable.dart';
+import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_money_formatter/flutter_money_formatter.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:salary_calc/deduction_guide_listview.dart';
 import 'package:salary_calc/my_admob.dart';
 import 'package:salary_calc/salary_calculator.dart';
 
 import 'my_private_data.dart';
+import 'salary_details_chart.dart';
 
 class SalaryDetailsPage extends StatelessWidget {
   final SalarySummary data;
@@ -23,10 +26,9 @@ class SalaryDetailsPage extends StatelessWidget {
   SalaryDetailsPage(this.salary, this.isAnnualSalary, this.data,
       {this.includeServerancePay = false});
 
+  final _adBanner = MyAdmob.createAdmobBanner2();
   @override
   Widget build(BuildContext context) {
-    final adBanner = MyAdmob.createAdmobBanner2();
-
     return Scaffold(
       body: SafeArea(
           child: ListView(
@@ -36,7 +38,9 @@ class SalaryDetailsPage extends StatelessWidget {
           // 예상 소득액(월)
           _buildGrossSalary(),
           // 공제액 세부내역
-          _buildDeductionDetails(),
+          FlipCard(
+              front: _buildDeductionDetails(), back: SalaryDetailsChart(data)),
+
           ExpandablePanel(
             header: Text(''),
             expanded: SizedBox(
@@ -49,8 +53,8 @@ class SalaryDetailsPage extends StatelessWidget {
           Padding(padding: EdgeInsets.only(bottom: 10)),
           // Admob 배너광고
           SizedBox(
-            height: adBanner.adSize.height.toDouble(),
-            child: MyPrivateData.hideAd ? null : adBanner,
+            height: _adBanner.adSize.height.toDouble(),
+            child: MyPrivateData.hideAd ? null : _adBanner,
           )
         ],
       )),
@@ -151,7 +155,8 @@ class SalaryDetailsPage extends StatelessWidget {
 
     children.add(_buildLabelMoneyText('국민연금', data.nationalPension));
     children.add(Divider(color: Colors.black45, thickness: 0.5));
-    children.add(_buildLabelMoneyText('공제액 합계', data.totalDeduction));
+    children.add(_buildLabelMoneyText('  공제액 합계', data.totalDeduction,
+        labelPrefix: FaIcon(FontAwesomeIcons.chartPie, size: 18)));
 
     return _roundedBox(Column(
         crossAxisAlignment: CrossAxisAlignment.center,
