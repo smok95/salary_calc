@@ -3,13 +3,15 @@ class KrUtils {
   ///
   /// 변환할 금액을 [value]에 입력하면 만원 단위로 변환 값이
   /// 리턴됩니다.
+  /// '원'을 제외하려면 [withoutWon]을 true로 설정합니다.
+  ///
   ///
   /// ```dart
   /// final result = KrUtils.numberToManwon(195000000);
   /// print('결과=$result');
   /// // 결과=1억9500만원
   /// ```
-  static numberToManwon(final int value) {
+  static numberToManwon(final int value, {bool withoutWon = false}) {
     int won = 0; // 원
     int manWon = 0; // 만원
     int eogWon = 0; // 억원
@@ -47,7 +49,8 @@ class KrUtils {
     if (manWon > 0) result += '$manWon만';
     if (won > 0) result += '$won';
     if (result.length == 0) result = '0';
-    result += '원';
+
+    if (!withoutWon) result += '원';
     return result;
   }
 }

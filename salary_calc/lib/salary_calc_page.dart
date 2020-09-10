@@ -21,7 +21,11 @@ class SalaryCalcPage extends StatefulWidget {
   /// 화면에서 설정버튼 클릭시 발생
   final VoidCallback onOpenSettings;
 
-  SalaryCalcPage({Key key, this.onOpenSettings}) : super(key: key);
+  /// 연봉실수령액 표 보기 이벤트
+  final VoidCallback onOpenSalaryTable;
+
+  SalaryCalcPage({Key key, this.onOpenSettings, this.onOpenSalaryTable})
+      : super(key: key);
 
   @override
   _SalaryCalcState createState() => _SalaryCalcState();
@@ -184,10 +188,10 @@ class _SalaryCalcState extends State<SalaryCalcPage> {
       message = RandomMessage.cheerUpMessage;
     }
 
-    /// 5% 확률로 응원메시지 다시 표시
+    /// 2% 확률로 응원메시지 다시 표시
     if (!_showCheerUpMessage) {
       final randomValue = Random.secure().nextInt(100);
-      _showCheerUpMessage = randomValue < 5;
+      _showCheerUpMessage = randomValue <= 2;
     }
 
     List<Widget> children = List<Widget>();
@@ -215,12 +219,31 @@ class _SalaryCalcState extends State<SalaryCalcPage> {
           )
         ],
       )));
-      children.add(Align(
-        alignment: Alignment.bottomRight,
-        child: IconButton(
-          icon: Icon(Icons.settings),
-          onPressed: widget.onOpenSettings,
-        ),
+
+      var linkText;
+      if (widget.onOpenSalaryTable != null) {
+        linkText = FlatButton(
+            onPressed: widget.onOpenSalaryTable,
+            child: Text(
+              '실수령액 표 보기',
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                color: Colors.black54,
+              ),
+            ));
+      } else {
+        linkText = SizedBox.shrink();
+      }
+
+      children.add(Row(
+        children: [
+          Expanded(
+              child: Align(alignment: Alignment.centerLeft, child: linkText)),
+          IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: widget.onOpenSettings,
+          )
+        ],
       ));
     } else {
       final grossSalary = _toMoneyString(_data.result.grossSalary);

@@ -1,7 +1,9 @@
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
+import 'package:salary_calc/salary_table.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -67,13 +69,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final adBanner = _buildAdBanner();
     return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
         body: SafeArea(
             child: Column(
           children: [
-            _buildAdBanner(),
             Expanded(
               child: SalaryCalcPage(
                 onOpenSettings: () {
@@ -96,8 +98,15 @@ class _MyHomePageState extends State<MyHomePage> {
                     },
                   ));
                 },
+                onOpenSalaryTable: () {
+                  print('연봉 실수령액표 화면을 오픈합니다.');
+                  Get.to(SalaryTable(
+                    adBanner: adBanner,
+                  ));
+                },
               ),
-            )
+            ),
+            adBanner
           ],
         )));
   }
@@ -106,6 +115,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _buildAdBanner() {
     return MyPrivateData.hideAd
         ? SizedBox.shrink()
-        : MyAdmob.createAdmobBanner();
+        : MyAdmob.createAdmobBanner(adSize: AdmobBannerSize.BANNER);
   }
 }

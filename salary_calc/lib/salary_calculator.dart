@@ -111,14 +111,19 @@ class SalaryCalculator {
       int dependents = 1,
       int youngDependents = 0,
       double incomeTaxRate = 1.0}) {
+    /// 연봉(단순 참고용)
+    int annualSalary = 0;
+
     /// 세전 월급
     int grossSalary = 0;
     if (isAnnual) {
       // 퇴직금포함이면 1년을 13개월로
       final monthCount = includeSeverancePay ? 13.0 : 12.0;
       grossSalary = (income / monthCount).round();
+      annualSalary = income;
     } else {
       grossSalary = income;
+      annualSalary = grossSalary * 12;
     }
 
     /// 비과세액보다 월소득액이 작은 경우 그냥 0으로 설정하고 진행한다.
@@ -160,7 +165,8 @@ class SalaryCalculator {
         nationalPension: nationalPension,
         healthInsurancePremium: healthCarePremiums[0],
         longTermCareInsurancePremium: healthCarePremiums[1],
-        employmentInsurancePremium: employmentInsurancePremium);
+        employmentInsurancePremium: employmentInsurancePremium,
+        annualGrossSalary: annualSalary);
   }
 
   /// 도움말
@@ -194,6 +200,9 @@ class SalaryCalculator {
 class SalarySummary {
   /// 월급(세전)
   final int grossSalary;
+
+  /// 연봉(세전) nullable value
+  final int annualGrossSalary;
 
   /// 월급(세후)
   int get netSalary {
@@ -239,7 +248,8 @@ class SalarySummary {
       this.nationalPension = 0,
       this.healthInsurancePremium = 0,
       this.longTermCareInsurancePremium = 0,
-      this.employmentInsurancePremium = 0});
+      this.employmentInsurancePremium = 0,
+      this.annualGrossSalary});
 
   static const SalarySummary zero = SalarySummary(0, 0, 0);
 }

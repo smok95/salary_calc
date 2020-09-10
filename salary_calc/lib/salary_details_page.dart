@@ -86,11 +86,12 @@ class SalaryDetailsPage extends StatelessWidget {
   Widget _buildLabelText(String label, String value,
       {double labelFontSize = 16,
       double fontSize = 16,
+      FontWeight fontWeight = FontWeight.bold,
       String suffix,
       Widget labelPrefix,
       Widget labelSuffix}) {
     if (suffix == null) suffix = '';
-    final style = TextStyle(fontWeight: FontWeight.bold, fontSize: fontSize);
+    final style = TextStyle(fontWeight: fontWeight, fontSize: fontSize);
     final labelStyle =
         TextStyle(fontWeight: FontWeight.normal, fontSize: labelFontSize);
     return Row(
@@ -109,12 +110,14 @@ class SalaryDetailsPage extends StatelessWidget {
   Widget _buildLabelMoneyText(String label, int money,
       {double labelFontSize = 16,
       double fontSize = 16,
+      FontWeight fontWeight = FontWeight.bold,
       String suffix = ' 원',
       Widget labelPrefix,
       Widget labelSuffix}) {
     return _buildLabelText(label, _toMoneyString(money),
         suffix: suffix,
         labelFontSize: labelFontSize,
+        fontWeight: fontWeight,
         fontSize: fontSize,
         labelPrefix: labelPrefix,
         labelSuffix: labelSuffix);
@@ -139,21 +142,33 @@ class SalaryDetailsPage extends StatelessWidget {
 
   // 예상 실수령액(월)
   Widget _buildNetSalary() {
-    return _roundedBox(
-        _buildLabelMoneyText('예상 실수령액(월)', data.netSalary, fontSize: 23));
+    return _roundedBox(Column(
+      children: [
+        _buildLabelMoneyText('예상 실수령액(월)', data.netSalary,
+            labelFontSize: 13, fontSize: 20),
+        _buildLabelMoneyText('년 환산금액', data.netSalary * 12,
+            labelFontSize: 13, fontSize: 13, fontWeight: FontWeight.normal)
+      ],
+    ));
   }
 
   Widget _buildDeductionDetails() {
     List<Widget> children = List<Widget>();
+    final fontWeight = FontWeight.normal;
+    children.add(
+        _buildLabelMoneyText('소득세', data.incomeTax, fontWeight: fontWeight));
+    children.add(_buildLabelMoneyText('지방소득세', data.localIncomeTax,
+        fontWeight: fontWeight));
+    children.add(_buildLabelMoneyText('건강보험', data.healthInsurancePremium,
+        fontWeight: fontWeight));
+    children.add(_buildLabelMoneyText(
+        '장기요양보험', data.longTermCareInsurancePremium,
+        fontWeight: fontWeight));
+    children.add(_buildLabelMoneyText('고용보험', data.employmentInsurancePremium,
+        fontWeight: fontWeight));
 
-    children.add(_buildLabelMoneyText('소득세', data.incomeTax));
-    children.add(_buildLabelMoneyText('지방소득세', data.localIncomeTax));
-    children.add(_buildLabelMoneyText('건강보험', data.healthInsurancePremium));
-    children
-        .add(_buildLabelMoneyText('장기요양보험', data.longTermCareInsurancePremium));
-    children.add(_buildLabelMoneyText('고용보험', data.employmentInsurancePremium));
-
-    children.add(_buildLabelMoneyText('국민연금', data.nationalPension));
+    children.add(_buildLabelMoneyText('국민연금', data.nationalPension,
+        fontWeight: fontWeight));
     children.add(Divider(color: Colors.black45, thickness: 0.5));
     children.add(_buildLabelMoneyText('  공제액 합계', data.totalDeduction,
         labelPrefix: FaIcon(FontAwesomeIcons.chartPie, size: 18)));
