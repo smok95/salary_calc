@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_jk/flutter_jk.dart';
 import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:get/get.dart';
 import 'package:salary_calc/random_message.dart';
@@ -10,8 +11,6 @@ import 'package:shimmer/shimmer.dart';
 import 'package:vibration/vibration.dart';
 
 import 'check_label.dart';
-import 'int_stepper.dart';
-import 'kr_utils.dart';
 import 'money_masked_text_controller.dart';
 import 'num_pad.dart';
 import 'salary_calculator.dart';
@@ -57,7 +56,12 @@ class _SalaryCalcState extends State<SalaryCalcPage> {
   @override
   Widget build(BuildContext context) {
     final labelText = this._isAnnualSalary ? '연봉' : '월급';
-    final keyboardHeight = 190.0;
+    final keyboardHeight = 180.0;
+
+    String moneyString = _data.salary >= 10000
+        ? '$labelText ${KrUtils.numberToManwon(_data.salary)}'
+        : '';
+
     return Padding(
         padding: EdgeInsets.only(left: 5, top: 5, right: 5, bottom: 5),
         child: Column(
@@ -66,6 +70,7 @@ class _SalaryCalcState extends State<SalaryCalcPage> {
             _salaryOptions(),
             // 소득액 입력필드
             _buildSalaryInput(labelText),
+
             // 부양가족(본인포함)
             _buildDependantsInput(),
             // 20세 이하 자녀
@@ -95,8 +100,12 @@ class _SalaryCalcState extends State<SalaryCalcPage> {
           isDense: true,
           labelText: '$labelText $moneyString',
           suffixText: '원',
-          labelStyle: TextStyle(fontSize: 20.0, fontWeight: FontWeight.normal),
+          labelStyle: Theme.of(context)
+              .textTheme
+              .subtitle1, // TextStyle(fontSize: 20.0, fontWeight: FontWeight.normal),
           floatingLabelBehavior: FloatingLabelBehavior.always,
+          contentPadding:
+              EdgeInsets.only(left: 10, right: 10, bottom: 10, top: 5),
           hintText: labelText,
           border: UnderlineInputBorder(
               borderSide: BorderSide.none,
@@ -509,7 +518,7 @@ class _SalaryCalcState extends State<SalaryCalcPage> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(label),
-        IntStepper(
+        NumStepper(
             width: 130.0,
             minimum: minimum,
             maximum: maximum,
@@ -527,7 +536,7 @@ class _SalaryCalcState extends State<SalaryCalcPage> {
       _vibrate();
 
       if (value <= _data.youngDependants) {
-        _showFlushbar('부양가족의 수는 자녀 수보다 커야 합니다.');
+        _showFlushbar('부양가족의 수는 자녀 수보다 많아야 합니다.');
         value += 1;
       }
 
@@ -542,7 +551,7 @@ class _SalaryCalcState extends State<SalaryCalcPage> {
       _vibrate();
 
       if (value >= _data.dependants) {
-        _showFlushbar('자녀의 수는 부양가족 수보다 작아야 합니다.');
+        _showFlushbar('자녀의 수는 부양가족 수보다 적어야 합니다.');
         value = _data.dependants - 1;
       }
 

@@ -3,10 +3,9 @@ import 'dart:core';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_jk/flutter_jk.dart';
 import 'package:flutter_money_formatter/flutter_money_formatter.dart';
-import 'package:get/get.dart';
-import 'package:lazy_data_table/lazy_data_table.dart';
-import 'package:salary_calc/kr_utils.dart';
+import 'package:lazy_data_table/lazy_data_table.dart' as lz;
 import 'package:salary_calc/salary_calculator.dart';
 
 /// table_sticky_headers: ^1.1.2 수백줄 데이터 출력에도 성능이 좋지 못해
@@ -170,14 +169,14 @@ class _SalaryTableState extends State<SalaryTable> {
         BorderSide(color: Color.fromARGB(0xFF, 0xee, 0xee, 0xee));
     const border = Border(bottom: borderSide, right: borderSide);
 
-    return LazyDataTable(
-        tableDimensions: DataTableDimensions(
+    return lz.LazyDataTable(
+        tableDimensions: lz.DataTableDimensions(
           cellHeight: 30,
           cellWidth: 95,
           columnHeaderHeight: 35,
           rowHeaderWidth: 80,
         ),
-        tableTheme: DataTableTheme(
+        tableTheme: lz.DataTableTheme(
           columnHeaderBorder: border,
           rowHeaderBorder: border,
           cellBorder: border,
@@ -193,8 +192,7 @@ class _SalaryTableState extends State<SalaryTable> {
         rowHeaderBuilder: (i) => Container(
             color: i % 2 == 0 ? Colors.white : Colors.grey[100],
             child: _centerText(
-              KrUtils.numberToManwon(_data[i].annualGrossSalary,
-                  withoutWon: true),
+              KrUtils.numberToManwon(_data[i].annualGrossSalary, suffix: ''),
             )),
         dataCellBuilder: (row, col) {
           final data = _data[row];
