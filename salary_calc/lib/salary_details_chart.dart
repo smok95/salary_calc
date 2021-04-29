@@ -1,6 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:salary_calc/salary_calculator.dart';
+import 'package:salary_calc/calc/salary_calculator.dart';
 
 import 'indicator.dart';
 
@@ -22,7 +22,7 @@ class SalaryChartData {
 }
 
 class _SalaryDetailsChartState extends State<SalaryDetailsChart> {
-  List<SalaryChartData> _items = List<SalaryChartData>();
+  List<SalaryChartData> _items = [];
 
   @override
   void initState() {
@@ -116,7 +116,7 @@ class _SalaryDetailsChartState extends State<SalaryDetailsChart> {
   }
 
   List<Widget> _buildIndicators() {
-    List<Widget> indicators = List<Widget>();
+    List<Widget> indicators = [];
 
     for (var item in _items) {
       indicators.add(Indicator(color: item.color, text: item.title, size: 13));
@@ -126,7 +126,7 @@ class _SalaryDetailsChartState extends State<SalaryDetailsChart> {
   }
 
   List<PieChartSectionData> _createPieChartSections() {
-    List<PieChartSectionData> sections = List<PieChartSectionData>();
+    List<PieChartSectionData> sections = [];
 
     for (var item in _items) {
       sections.add(_createPieChartSectionData(item.percentage, item.color));

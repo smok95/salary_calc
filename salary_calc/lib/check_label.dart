@@ -8,8 +8,7 @@ class CheckLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> children = List<Widget>();
-
+    List<Widget> children = [];
     final style = checked ? TextStyle(fontWeight: FontWeight.bold) : null;
     if (checked) {
       children.add(Padding(

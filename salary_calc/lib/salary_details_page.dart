@@ -1,12 +1,12 @@
 import 'package:expandable/expandable.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:money_formatter/money_formatter.dart';
 import 'package:salary_calc/deduction_guide_listview.dart';
 import 'package:salary_calc/my_admob.dart';
-import 'package:salary_calc/salary_calculator.dart';
+import 'package:salary_calc/calc/salary_calculator.dart';
 
 import 'my_private_data.dart';
 import 'salary_details_chart.dart';
@@ -58,7 +58,7 @@ class SalaryDetailsPage extends StatelessWidget {
           )
         ],
       )),
-      bottomNavigationBar: FlatButton(
+      bottomNavigationBar: TextButton(
           child: Text('닫기'),
           onPressed: () {
             Get.back();
@@ -67,7 +67,7 @@ class SalaryDetailsPage extends StatelessWidget {
   }
 
   String _toMoneyString(int value) {
-    return FlutterMoneyFormatter(amount: value.toDouble())
+    return MoneyFormatter(amount: value.toDouble())
         .output
         .withoutFractionDigits;
   }
@@ -153,7 +153,8 @@ class SalaryDetailsPage extends StatelessWidget {
   }
 
   Widget _buildDeductionDetails() {
-    List<Widget> children = List<Widget>();
+    List<Widget> children = [];
+
     final fontWeight = FontWeight.normal;
     children.add(
         _buildLabelMoneyText('소득세', data.incomeTax, fontWeight: fontWeight));

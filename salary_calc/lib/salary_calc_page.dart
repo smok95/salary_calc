@@ -3,17 +3,15 @@ import 'dart:math';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_jk/flutter_jk.dart';
-import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:get/get.dart';
+import 'package:money_formatter/money_formatter.dart';
 import 'package:salary_calc/random_message.dart';
 import 'package:salary_calc/salary_details_page.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:vibration/vibration.dart';
 
 import 'check_label.dart';
-import 'money_masked_text_controller.dart';
-import 'num_pad.dart';
-import 'salary_calculator.dart';
+import 'calc/salary_calculator.dart';
 
 class SalaryCalcPage extends StatefulWidget {
   /// 환경설정 오픈 이벤트
@@ -398,14 +396,14 @@ class _SalaryCalcState extends State<SalaryCalcPage> {
   }
 
   String _toMoneyString(int value) {
-    return FlutterMoneyFormatter(amount: value.toDouble())
+    return MoneyFormatter(amount: value.toDouble())
         .output
         .withoutFractionDigits;
   }
 
   /// 실수령액 계산
   void _calc() {
-    _data.result = SalaryCalculator.calc(_data.salary,
+    _data.result = SalaryCalculator().calc(_data.salary,
         nontaxable: _data.nontaxable,
         isAnnual: _isAnnualSalary,
         includeSeverancePay: _includeSeverancePay,

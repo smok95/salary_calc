@@ -4,9 +4,9 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_jk/flutter_jk.dart';
-import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:lazy_data_table/lazy_data_table.dart' as lz;
-import 'package:salary_calc/salary_calculator.dart';
+import 'package:money_formatter/money_formatter.dart';
+import 'package:salary_calc/calc/salary_calculator.dart';
 
 /// table_sticky_headers: ^1.1.2 수백줄 데이터 출력에도 성능이 좋지 못해
 /// LazyDataTable로 교체함.
@@ -26,19 +26,20 @@ class _SalaryTableState extends State<SalaryTable> {
   void initState() {
     super.initState();
 
-    _data = List<SalarySummary>();
+    _data = [];
 
     const millionWon = 1000000;
+    final salaryCalc = SalaryCalculator();
     // 1000만원 ~ 3억까지 100만원 단위로
     int income = 10 * millionWon;
     while (income <= millionWon * 300) {
-      _data.add(SalaryCalculator.calc(income));
+      _data.add(salaryCalc.calc(income));
       income += millionWon;
     }
   }
 
   String _toMoneyString(int value) {
-    return FlutterMoneyFormatter(amount: value.toDouble())
+    return MoneyFormatter(amount: value.toDouble())
         .output
         .withoutFractionDigits;
   }
