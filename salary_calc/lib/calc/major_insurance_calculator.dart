@@ -4,16 +4,39 @@ class MajorInsuranceCalculator {
   final DateTime baseDate;
 
   /// 건강보험료율
-  double _taxRateHealth;
+  double _taxRateHealthCare;
+
+  /// 장기요양보험요율
+  double _taxRateLongTermCare;
+
+  /// 국민연금요율
+  double _taxRateNationalPension;
+
+  /// 고용보험요율
+  double _taxRateEmploymentInsurance;
 
   MajorInsuranceCalculator({DateTime baseDate})
       : baseDate = baseDate ?? DateTime.now() {
     if (baseDate.year <= 2020) {
-      // 2020년 기준 6.67% (근로자: 3.335%, 사업주: 3.335% 부담)
-      _taxRateHealth = 0.0667;
+      // 2020년 기준
+      // 6.67% (근로자: 3.335%, 사업주: 3.335% 부담)
+      _taxRateHealthCare = 0.0667;
+      // 10.25%
+      _taxRateLongTermCare = 0.1025;
+      // 9% (근로자: 4.5%, 사업주: 4.5%)
+      _taxRateNationalPension = 0.09;
+      // 1.6% (각각 50%)
+      _taxRateEmploymentInsurance = 0.016;
     } else if (baseDate.year >= 2021) {
-      // 2021년 기준 6.86% (근로자: 3.43%, 사업주: 3.44% 부담)
-      _taxRateHealth = 0.0686;
+      // 2021년 기준
+      // 6.86% (근로자: 3.43%, 사업주: 3.44% 부담)
+      _taxRateHealthCare = 0.0686;
+      // 11.52%
+      _taxRateLongTermCare = 0.1152;
+      // 9% (근로자: 4.5%, 사업주: 4.5%)
+      _taxRateNationalPension = 0.09;
+      // 1.6% (각각 50%)
+      _taxRateEmploymentInsurance = 0.016;
     }
   }
 
@@ -36,7 +59,7 @@ class MajorInsuranceCalculator {
     if (income > maximum) income = maximum;
 
     /// 소득월액의 9%(근로자부담 4.5%, 사용자부담(회사): 4.5%)
-    int nationalPension = (income * 0.09).toInt();
+    int nationalPension = (income * _taxRateNationalPension).toInt();
 
     if (onlyWorker) {
       nationalPension = nationalPension ~/ 2;
@@ -54,15 +77,15 @@ class MajorInsuranceCalculator {
     if (income <= 0) return [0, 0];
 
     /// 건강보험료
-    int healthCost = (income * _taxRateHealth).toInt();
+    int healthCost = (income * _taxRateHealthCare).toInt();
 
     if (onlyWorker) healthCost ~/= 2;
 
     /// 원단위 절사
     healthCost = (healthCost ~/ 10) * 10;
 
-    /// 2020기준  건강보험료의 10.25% (근로자와 사업주 각각 50% 부담)
-    int careCost = (healthCost * 0.1025).toInt();
+    /// 장기요양보험 건강보험료의 _taxRateLongTermCare% (근로자와 사업주 각각 50% 부담)
+    int careCost = (healthCost * _taxRateLongTermCare).toInt();
 
     /// 원단위 절사
     careCost = (careCost ~/ 10) * 10;
@@ -88,7 +111,9 @@ class MajorInsuranceCalculator {
     /// 150 ~ 1000인 미만 : +0.65%
     /// 1000인 이상 또는 정부,지방단체 : +0.85%
 
-    int cost = (income * 0.008).toInt();
+    final double each = _taxRateEmploymentInsurance / 2;
+
+    int cost = (income * each).toInt();
 
     if (!onlyWorker) {
       double additionalTaxRate = 0.0025;
@@ -102,25 +127,60 @@ class MajorInsuranceCalculator {
       if (prioritySupportedCompany) additionalTaxRate = 0.0045;
       if (government) additionalTaxRate = 0.0085;
 
-      cost += (income * (0.008 + additionalTaxRate)).toInt();
+      cost += (income * (each + additionalTaxRate)).toInt();
     }
 
     return (cost ~/ 10) * 10;
   }
 
+  String doubleToString(double v, int fractionDigits) {
+    var s = v.toStringAsFixed(fractionDigits);
+    if (s.isEmpty) return s;
+
+    if (fractionDigits >= 1) {
+      for (var i = 0; i < fractionDigits; i++) {
+        if (s.endsWith('0')) {
+          s = s.substring(0, s.length - 1);
+        } else {
+          break;
+        }
+      }
+
+      if (s.endsWith('.')) {
+        s = s.substring(0, s.length - 1);
+      }
+    }
+    return s;
+  }
+
   String helpText(String name) {
     String text = '';
+    final year = baseDate.year;
+    var percent = 0.0;
     switch (name) {
-      case 'health-care':
-        final percent = _taxRateHealth * 100;
+      case 'national-pension':
+        percent = _taxRateNationalPension * 100;
+        final each = doubleToString(percent / 2, 1);
         text =
-            '${baseDate.year}년 기준 건강보험료 ${percent.toStringAsFixed(2)}%\n(근로자와 사업주 각각 ${(percent / 2).toStringAsFixed(2)}% 부담)';
+            '$year년을 기준으로 월 소득액에서 비과세액을 제외한 금액의 ${doubleToString(percent, 1)}%를 공제합니다. (회사 $each%, 본인 $each% 각각 부담)\n' +
+                '월 최저액 32만원, 최대액 503만원으로 소득이 최저액에 못미치거나, 최대액을 초과하는 경우에는 ' +
+                '최저액 또는 최대액을 기준으로 계산됩니다.';
+        break;
+      case 'health-care':
+        percent = _taxRateHealthCare * 100;
+        text =
+            '$year년 기준 건강보험료 ${doubleToString(percent, 2)}%\n(근로자와 사업주 각각 ${doubleToString(percent / 2, 2)}% 부담)';
         break;
       case 'long-term-care':
-        text = '2020년 기준 건강보험료의 10.25%\n(근로자와 사업주 각각 5.125% 부담)';
+        percent = _taxRateLongTermCare * 100;
+        text =
+            '$year년 기준 건강보험료의 ${doubleToString(percent, 2)}%\n(근로자와 사업주 각각 ${doubleToString(percent / 2, 3)}% 부담)';
         break;
       case 'employment-insurance':
-        text = '2020년 기준 1.6%\n(근로자와 사업주 각각 0.8% 부담)';
+        percent = _taxRateEmploymentInsurance * 100;
+        final each = doubleToString(percent / 2, 1);
+        text =
+            '$year년 기준 ${doubleToString(percent, 1)}%\n(근로자와 사업주 각각 $each% 부담)';
         break;
     }
 

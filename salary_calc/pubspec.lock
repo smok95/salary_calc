@@ -136,11 +136,11 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "75682135ae68831c7fbcc7b53bcc708694a8441d"
-      resolved-ref: "75682135ae68831c7fbcc7b53bcc708694a8441d"
+      ref: "40eeaeae20f983042b0e27d9d2cfcb7a82abe4eb"
+      resolved-ref: "40eeaeae20f983042b0e27d9d2cfcb7a82abe4eb"
       url: "https://github.com/smok95/flutter_jk.git"
     source: git
-    version: "1.7.0"
+    version: "1.8.1"
   flutter_localizations:
     dependency: "direct main"
     description: flutter

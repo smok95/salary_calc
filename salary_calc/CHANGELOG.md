@@ -5,9 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## 1.3.0 - 2021-05-02
 ### Changed
 - flutter_money_formatter --> money_formatter 로 교체 (최신 환경에 맞지않아서..)
 - get: ^3.4.1 -> get: ^4.1.4
+- 2021년 기준에 맞게 수정
 
 ## 1.2.1 - 2020-11-15
 ### Changed

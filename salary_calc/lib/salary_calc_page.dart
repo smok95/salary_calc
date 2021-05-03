@@ -201,7 +201,7 @@ class _SalaryCalcState extends State<SalaryCalcPage> {
       _showCheerUpMessage = randomValue <= 2;
     }
 
-    List<Widget> children = List<Widget>();
+    List<Widget> children = [];
     double paddingValue = 10;
     if (showHelp) {
       paddingValue = 0;
@@ -343,7 +343,7 @@ class _SalaryCalcState extends State<SalaryCalcPage> {
     final isSelected = [_isAnnualSalary, !_isAnnualSalary];
     final disableColor = Colors.grey[400];
 
-    final List<Widget> children = List<Widget>();
+    final List<Widget> children = [];
 
     // 연봉/월급 구분 토글버튼
     children.add(ToggleButtons(
@@ -403,7 +403,8 @@ class _SalaryCalcState extends State<SalaryCalcPage> {
 
   /// 실수령액 계산
   void _calc() {
-    _data.result = SalaryCalculator().calc(_data.salary,
+    final baseDate = DateTime.now();
+    _data.result = SalaryCalculator(baseDate: baseDate).calc(_data.salary,
         nontaxable: _data.nontaxable,
         isAnnual: _isAnnualSalary,
         includeSeverancePay: _includeSeverancePay,

@@ -6,7 +6,10 @@ class SalaryCalculator {
   /// 계산기준일
   final DateTime baseDate;
 
-  SalaryCalculator({DateTime baseDate}) : baseDate = baseDate ?? DateTime.now();
+  SalaryCalculator({DateTime baseDate})
+      : this.baseDate = baseDate ?? DateTime.now() {
+    _majorInsuranceCalc = MajorInsuranceCalculator(baseDate: this.baseDate);
+  }
 
   /// [income]은 전체 급여액
   /// [income]값이 월급이면 [inAnnual]값을 false로 설정하고
@@ -61,19 +64,17 @@ class SalaryCalculator {
     // 지방소득세
     final localIncomeTax = incomeTaxCalc.calcLocalIncomeTax(incomeTax);
 
-    final majorInsuranceCalc = MajorInsuranceCalculator(baseDate: baseDate);
-
     // 국민연금 (근로자 부담액만)
-    final nationalPension =
-        majorInsuranceCalc.calcNationalPension(taxableIncome, onlyWorker: true);
+    final nationalPension = _majorInsuranceCalc
+        .calcNationalPension(taxableIncome, onlyWorker: true);
 
     /// 건강보험료/장기요양보험료 (근로자 부담액만)
-    final healthCarePremiums = majorInsuranceCalc
+    final healthCarePremiums = _majorInsuranceCalc
         .calcHealthInsurancePremium(taxableIncome, onlyWorker: true);
 
-    final employmentInsurancePremium = majorInsuranceCalc
+    final employmentInsurancePremium = _majorInsuranceCalc
         .calcEmploymentInsurancePremium(taxableIncome, onlyWorker: true);
-    return SalarySummary(grossSalary, incomeTax, localIncomeTax,
+    return SalarySummary(grossSalary, incomeTax, localIncomeTax, this.baseDate,
         nontaxable: nontaxable,
         nationalPension: nationalPension,
         healthInsurancePremium: healthCarePremiums[0],
@@ -88,24 +89,18 @@ class SalaryCalculator {
     String text = '';
     switch (name) {
       case 'national-pension':
-        text =
-            '2020년을 기준으로 월 소득액에서 비과세액을 제외한 금액의 9%를 공제합니다. (회사 4.5%, 본인 4.5% 각각 부담)\n' +
-                '월 최저액 32만원, 최대액 503만원으로 소득이 최저액에 못미치거나, 최대액을 초과하는 경우에는 ' +
-                '최저액 또는 최대액을 기준으로 계산됩니다.';
-        break;
       case 'health-care':
-        text = MajorInsuranceCalculator(baseDate: baseDate).helpText(name);
-        break;
       case 'long-term-care':
-        text = '2020년 기준 건강보험료의 10.25%\n(근로자와 사업주 각각 5.125% 부담)';
-        break;
       case 'employment-insurance':
-        text = '2020년 기준 1.6%\n(근로자와 사업주 각각 0.8% 부담)';
+        text = _majorInsuranceCalc.helpText(name);
         break;
     }
 
     return text;
   }
+
+  /// 4대보험 계산기
+  MajorInsuranceCalculator _majorInsuranceCalc;
 }
 
 /// 영단어는 https://www.philinlove.com/entry/difference-between-wage-salary-and-pay 참고함.
@@ -156,7 +151,11 @@ class SalarySummary {
   /// 비과세액(기본: 10만원)
   final int nontaxable;
 
-  const SalarySummary(this.grossSalary, this.incomeTax, this.localIncomeTax,
+  /// 계산기준일
+  final DateTime baseDate;
+
+  const SalarySummary(
+      this.grossSalary, this.incomeTax, this.localIncomeTax, this.baseDate,
       {this.nontaxable = 100000,
       this.nationalPension = 0,
       this.healthInsurancePremium = 0,
@@ -164,5 +163,5 @@ class SalarySummary {
       this.employmentInsurancePremium = 0,
       this.annualGrossSalary});
 
-  static const SalarySummary zero = SalarySummary(0, 0, 0);
+  static const SalarySummary zero = SalarySummary(0, 0, 0, null);
 }

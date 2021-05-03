@@ -3,10 +3,13 @@ import 'package:flutter_jk/flutter_jk.dart';
 import 'package:salary_calc/calc/salary_calculator.dart';
 
 class DeductionGuidePanel extends StatelessWidget {
+  /// 계산기준일
+  final DateTime baseDate;
+  DeductionGuidePanel(this.baseDate);
+
   @override
   Widget build(BuildContext context) {
     /// 계산기준 연도
-    final baseDate = DateTime(2020);
     final calculator = IncomeTaxCalc(baseDate: baseDate);
     final salaryCalc = SalaryCalculator(baseDate: baseDate);
 
@@ -20,9 +23,9 @@ class DeductionGuidePanel extends StatelessWidget {
             '월급여에서 세금공제를 하지 않는 금액으로 월10만원 이하의 식대, 출산/보육수당, 국외근로소득, 생산직근로자의 연장,야간,휴일근로 수당 등' +
                 ' 소득세법에서 정한 기준에 따라 과세대상에서 제외됩니다.\n본 계산기는 월 식대10만원을 기본으로 설정하였으며, 본인의 비과세액을 아는 경우에는 비과세액을 변경하여 계산하실 수 있습니다.'),
         // 소득세
-        _buildListTile('근로소득세', calculator.incomeTaxHelpText()),
+        _buildListTile('근로소득세', calculator.helpText('income-tax')),
         // 지방소득세
-        _buildListTile('지방소득세', calculator.localIncomeTaxHelpText()),
+        _buildListTile('지방소득세', calculator.helpText('local-income-tax')),
         // 건강보험
         _buildListTile('건강보험', salaryCalc.helpText('health-care')),
         // 장기요양보험

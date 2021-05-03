@@ -46,7 +46,7 @@ class SalaryDetailsPage extends StatelessWidget {
             expanded: SizedBox(
                 height: 230,
                 width: double.infinity,
-                child: DeductionGuidePanel()),
+                child: DeductionGuidePanel(this.data.baseDate)),
           ),
           // 예상 실수령액(월)
           _buildNetSalary(),
