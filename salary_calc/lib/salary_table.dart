@@ -13,7 +13,7 @@ import 'package:salary_calc/calc/salary_calculator.dart';
 //import 'package:table_sticky_headers/table_sticky_headers.dart';
 
 class SalaryTable extends StatefulWidget {
-  final Widget adBanner;
+  final Widget? adBanner;
 
   SalaryTable({this.adBanner});
 
@@ -92,7 +92,7 @@ class _SalaryTableState extends State<SalaryTable> {
               child: Column(
             children: [
               Expanded(child: _buildLazyDataTable()),
-              if (widget.adBanner != null) widget.adBanner
+              if (widget.adBanner != null) widget.adBanner!
             ],
           )),
           onWillPop: () async {
@@ -171,26 +171,29 @@ class _SalaryTableState extends State<SalaryTable> {
     const border = Border(bottom: borderSide, right: borderSide);
 
     return lz.LazyDataTable(
-        tableDimensions: lz.DataTableDimensions(
+        tableDimensions: lz.LazyDataTableDimensions(
           cellHeight: 30,
           cellWidth: 95,
-          columnHeaderHeight: 35,
-          rowHeaderWidth: 80,
+          topHeaderHeight: 35,
+          leftHeaderWidth: 80,
         ),
-        tableTheme: lz.DataTableTheme(
+        tableTheme: lz.LazyDataTableTheme(
           columnHeaderBorder: border,
+          alternateColumnHeaderBorder: border,
           rowHeaderBorder: border,
           cellBorder: border,
+          alternateCellBorder: border,
+          alternateRowHeaderBorder: border,
           cornerBorder: border,
-          columnHeaderColor: Colors.amber[200],
+          columnHeaderColor: Colors.amber.shade200,
           rowHeaderColor: Colors.white,
           cellColor: Colors.white,
-          cornerColor: Colors.amber[200],
+          cornerColor: Colors.amber.shade200,
         ),
         rows: _data.length,
         columns: _columns.length,
-        columnHeaderBuilder: (i) => _centerText(_columns[i], bold: true),
-        rowHeaderBuilder: (i) => Container(
+        topHeaderBuilder: (i) => _centerText(_columns[i], bold: true),
+        leftHeaderBuilder: (i) => Container(
             color: i % 2 == 0 ? Colors.white : Colors.grey[100],
             child: _centerText(
               KrUtils.numberToManwon(_data[i].annualGrossSalary, suffix: ''),
@@ -237,7 +240,7 @@ class _SalaryTableState extends State<SalaryTable> {
               color: row % 2 == 0 ? Colors.white : Colors.grey[100],
               child: _centerText(_toMoneyString(value), bold: bold));
         },
-        cornerWidget: Center(
+        topLeftCornerWidget: Center(
             child: Text(
           "연봉",
           style: TextStyle(fontWeight: FontWeight.bold),
@@ -290,5 +293,5 @@ class _SalaryTableState extends State<SalaryTable> {
         legendCell: Text('연봉'),
       );
   } */
-  List<SalarySummary> _data;
+  late List<SalarySummary> _data;
 }

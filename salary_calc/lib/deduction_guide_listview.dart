@@ -4,7 +4,7 @@ import 'package:salary_calc/calc/salary_calculator.dart';
 
 class DeductionGuidePanel extends StatelessWidget {
   /// 계산기준일
-  final DateTime baseDate;
+  final DateTime? baseDate;
   DeductionGuidePanel(this.baseDate);
 
   @override

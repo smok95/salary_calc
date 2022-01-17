@@ -37,7 +37,7 @@ class MyAdmob {
   }
 
   static void initialize() {
-    Admob.initialize(appId);
+    Admob.initialize();
   }
 
   /// 화면크기에 맞는 배너 높이값을 구한다.

@@ -5,7 +5,7 @@ class MyLocal {
   MyLocal(this.locale);
   final Locale locale;
 
-  static MyLocal of(BuildContext context) {
+  static MyLocal? of(BuildContext context) {
     return Localizations.of<MyLocal>(context, MyLocal);
   }
 
@@ -54,7 +54,14 @@ class MyLocal {
   };
 
   String text(String name) {
-    return _values[locale.languageCode][name];
+    var langMap = _values[locale.languageCode];
+    if (langMap == null) {
+      return name;
+    }
+
+    var msg = langMap[name];
+    if (msg == null) return name;
+    return msg;
   }
 }
 

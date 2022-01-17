@@ -33,8 +33,10 @@ class MyApp extends StatelessWidget {
     ]);
 
     return GetMaterialApp(
-      onGenerateTitle: (BuildContext context) =>
-          MyLocal.of(context).text('title'),
+      onGenerateTitle: (BuildContext context) {
+        var translate = MyLocal.of(context);
+        return translate != null ? translate.text('title') : '연봉계산기';
+      },
       localizationsDelegates: [
         const MyLocalDelegate(),
         GlobalMaterialLocalizations.delegate,
@@ -48,14 +50,13 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blueGrey,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: '연봉계산기'),
+      home: MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-  final String title;
+  MyHomePage({Key? key}) : super(key: key);
 
   @override
   _MyHomePageState createState() => _MyHomePageState();

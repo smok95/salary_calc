@@ -4,20 +4,21 @@ class MajorInsuranceCalculator {
   final DateTime baseDate;
 
   /// 건강보험료율
-  double _taxRateHealthCare;
+  late double _taxRateHealthCare;
 
   /// 장기요양보험요율
-  double _taxRateLongTermCare;
+  late double _taxRateLongTermCare;
 
   /// 국민연금요율
-  double _taxRateNationalPension;
+  late double _taxRateNationalPension;
 
   /// 고용보험요율
-  double _taxRateEmploymentInsurance;
+  late double _taxRateEmploymentInsurance;
 
-  MajorInsuranceCalculator({DateTime baseDate})
-      : baseDate = baseDate ?? DateTime.now() {
-    if (baseDate.year <= 2020) {
+  MajorInsuranceCalculator({DateTime? baseDate})
+      : this.baseDate = baseDate ?? DateTime.now() {
+    final year = this.baseDate.year;
+    if (year <= 2020) {
       // 2020년 기준
       // 6.67% (근로자: 3.335%, 사업주: 3.335% 부담)
       _taxRateHealthCare = 0.0667;
@@ -27,7 +28,7 @@ class MajorInsuranceCalculator {
       _taxRateNationalPension = 0.09;
       // 1.6% (각각 50%)
       _taxRateEmploymentInsurance = 0.016;
-    } else if (baseDate.year >= 2021) {
+    } else if (year >= 2021) {
       // 2021년 기준
       // 6.86% (근로자: 3.43%, 사업주: 3.44% 부담)
       _taxRateHealthCare = 0.0686;

@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:flushbar/flushbar.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_jk/flutter_jk.dart';
 import 'package:get/get.dart';
@@ -16,12 +16,12 @@ import 'calc/salary_calculator.dart';
 class SalaryCalcPage extends StatefulWidget {
   /// 환경설정 오픈 이벤트
   /// 화면에서 설정버튼 클릭시 발생
-  final VoidCallback onOpenSettings;
+  final VoidCallback? onOpenSettings;
 
   /// 연봉실수령액 표 보기 이벤트
-  final VoidCallback onOpenSalaryTable;
+  final VoidCallback? onOpenSalaryTable;
 
-  SalaryCalcPage({Key key, this.onOpenSettings, this.onOpenSalaryTable})
+  SalaryCalcPage({Key? key, this.onOpenSettings, this.onOpenSalaryTable})
       : super(key: key);
 
   @override
@@ -122,7 +122,7 @@ class _SalaryCalcState extends State<SalaryCalcPage> {
   }
 
   Widget _buildNontaxableInput() {
-    final labelText = '비과세액';
+    final labelText = '비과세액(월)';
     final fillColor = _salaryFieldHasFocus ? Colors.transparent : _fillColor;
     return TextField(
       readOnly: true,
@@ -229,7 +229,7 @@ class _SalaryCalcState extends State<SalaryCalcPage> {
 
       var linkText;
       if (widget.onOpenSalaryTable != null) {
-        linkText = FlatButton(
+        linkText = TextButton(
             onPressed: widget.onOpenSalaryTable,
             child: Text(
               '실수령액 표 보기',
@@ -334,7 +334,8 @@ class _SalaryCalcState extends State<SalaryCalcPage> {
 
   /// 진동
   void _vibrate() async {
-    if (await Vibration.hasVibrator()) {
+    var result = await Vibration.hasVibrator();
+    if (result != null && result) {
       Vibration.vibrate(duration: 3);
     }
   }
@@ -511,7 +512,7 @@ class _SalaryCalcState extends State<SalaryCalcPage> {
   }
 
   Widget _buildNumberStepper(
-      final String label, int value, void Function(int) onChanged,
+      final String label, int value, void Function(int?) onChanged,
       {int minimum = 1, int maximum = 999}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -532,6 +533,8 @@ class _SalaryCalcState extends State<SalaryCalcPage> {
   /// 부양가족수 설정 컨트롤
   Widget _buildDependantsInput() {
     return _buildNumberStepper('부양가족 수(본인포함) ', _data.dependants, (value) {
+      if (value == null) return;
+
       _vibrate();
 
       if (value <= _data.youngDependants) {
@@ -547,6 +550,7 @@ class _SalaryCalcState extends State<SalaryCalcPage> {
   /// 20세 이하 자녀 설정 컨트롤
   Widget _buildYoungDependants() {
     return _buildNumberStepper('20세 이하 자녀 수 ', _data.youngDependants, (value) {
+      if (value == null) return;
       _vibrate();
 
       if (value >= _data.dependants) {
@@ -562,8 +566,9 @@ class _SalaryCalcState extends State<SalaryCalcPage> {
   /// Flushbar 표시
   void _showFlushbar(final String message) {
     /// 표시중인 Flushbar 닫기
-    if (_flushbar?.isShowing() ?? false) {
-      _flushbar.dismiss();
+    if (_flushbar != null && _flushbar!.isShowing()) {
+      _flushbar!.dismiss();
+      _flushbar = null;
     }
 
     _flushbar = Flushbar(
@@ -576,12 +581,12 @@ class _SalaryCalcState extends State<SalaryCalcPage> {
       flushbarPosition: FlushbarPosition.TOP,
     );
 
-    _flushbar.show(context);
+    _flushbar!.show(context);
   }
 
   _TextFieldController _salaryTextController =
       _TextFieldController(Key('salary'));
-  _TextFieldController _nontaxableTextController;
+  late _TextFieldController _nontaxableTextController;
   FocusNode _nontaxableFocusNode = FocusNode();
 
   /// 연봉/월급 구분, true면 연봉
@@ -593,7 +598,7 @@ class _SalaryCalcState extends State<SalaryCalcPage> {
   SalaryCalcData _data = SalaryCalcData();
 
   bool _plusMode = true;
-  String _emoticon;
+  late String _emoticon;
   bool _showCheerUpMessage = true;
 
   /// 최대 계산 가능 금액 (9999억..., )
@@ -601,8 +606,8 @@ class _SalaryCalcState extends State<SalaryCalcPage> {
   final _maximumSalary = 999999999999;
 
   final Radius _radius = Radius.circular(5.0);
-  Color _fillColor = Colors.grey[200];
-  Flushbar _flushbar;
+  Color _fillColor = Colors.grey.shade200;
+  Flushbar? _flushbar;
 
   /// 상세정보 사용방법 안내메시지 표시여부
   bool _showHelpText = true;

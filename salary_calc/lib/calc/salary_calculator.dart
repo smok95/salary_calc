@@ -6,7 +6,7 @@ class SalaryCalculator {
   /// 계산기준일
   final DateTime baseDate;
 
-  SalaryCalculator({DateTime baseDate})
+  SalaryCalculator({DateTime? baseDate})
       : this.baseDate = baseDate ?? DateTime.now() {
     _majorInsuranceCalc = MajorInsuranceCalculator(baseDate: this.baseDate);
   }
@@ -100,7 +100,7 @@ class SalaryCalculator {
   }
 
   /// 4대보험 계산기
-  MajorInsuranceCalculator _majorInsuranceCalc;
+  late MajorInsuranceCalculator _majorInsuranceCalc;
 }
 
 /// 영단어는 https://www.philinlove.com/entry/difference-between-wage-salary-and-pay 참고함.
@@ -109,7 +109,7 @@ class SalarySummary {
   /// 월급(세전)
   final int grossSalary;
 
-  /// 연봉(세전) nullable value
+  /// 연봉(세전)
   final int annualGrossSalary;
 
   /// 월급(세후)
@@ -152,7 +152,7 @@ class SalarySummary {
   final int nontaxable;
 
   /// 계산기준일
-  final DateTime baseDate;
+  final DateTime? baseDate;
 
   const SalarySummary(
       this.grossSalary, this.incomeTax, this.localIncomeTax, this.baseDate,
@@ -161,7 +161,7 @@ class SalarySummary {
       this.healthInsurancePremium = 0,
       this.longTermCareInsurancePremium = 0,
       this.employmentInsurancePremium = 0,
-      this.annualGrossSalary});
+      this.annualGrossSalary = 0});
 
   static const SalarySummary zero = SalarySummary(0, 0, 0, null);
 }

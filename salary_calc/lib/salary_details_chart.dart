@@ -7,7 +7,7 @@ import 'indicator.dart';
 class SalaryDetailsChart extends StatefulWidget {
   final SalarySummary data;
 
-  SalaryDetailsChart(this.data, {Key key}) : super(key: key);
+  SalaryDetailsChart(this.data, {Key? key}) : super(key: key);
 
   @override
   _SalaryDetailsChartState createState() => _SalaryDetailsChartState();
@@ -34,14 +34,14 @@ class _SalaryDetailsChartState extends State<SalaryDetailsChart> {
     final data = widget.data;
     _items.clear();
 
-    final colorIndex = 300;
+    const colorIndex = 300;
 
     /// 소득세+지방소득세
     final incomeTax =
         ((data.incomeTax + data.localIncomeTax) / data.grossSalary) * 100;
 
     _items.add(SalaryChartData(incomeTax, '소득세 ${doubleToString(incomeTax)}%',
-        Colors.deepOrange[colorIndex]));
+        Colors.deepOrange[colorIndex]!));
 
     /// 건강보험 + 장기요양보험 + 고용보험
     final insurances = ((data.healthInsurancePremium +
@@ -50,12 +50,12 @@ class _SalaryDetailsChartState extends State<SalaryDetailsChart> {
             data.grossSalary) *
         100;
     _items.add(SalaryChartData(insurances, '보험료 ${doubleToString(insurances)}%',
-        Colors.yellow[colorIndex]));
+        Colors.yellow[colorIndex]!));
 
     /// 국민연금
     final pension = (data.nationalPension / data.grossSalary) * 100;
     _items.add(SalaryChartData(
-        pension, '국민연금 ${doubleToString(pension)}%', Colors.blue[colorIndex]));
+        pension, '국민연금 ${doubleToString(pension)}%', Colors.blue[colorIndex]!));
 
     /// 공제액 합계
     /*final deduction = (data.totalDeduction / data.grossSalary) * 100;
@@ -65,7 +65,7 @@ class _SalaryDetailsChartState extends State<SalaryDetailsChart> {
     /// 예상 실수령액(월)
     final netSalary = (data.netSalary / data.grossSalary) * 100;
     _items.add(SalaryChartData(netSalary, '실수령액 ${doubleToString(netSalary)}%',
-        Colors.lightGreen[colorIndex]));
+        Colors.lightGreen[colorIndex]!));
 
     return Card(
       margin: EdgeInsets.all(0),

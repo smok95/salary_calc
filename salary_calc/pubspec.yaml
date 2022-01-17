@@ -15,10 +15,10 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.3.0+5
+version: 1.3.1+6
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -26,35 +26,36 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
+  another_flushbar: ^1.10.28
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^0.1.3
-  vibration: ^1.4.0
+  cupertino_icons: ^1.0.4
+  vibration: ^1.7.4-nullsafety.0
   money_formatter: ^0.0.3 # flutter_money_formatter --> money_formatter 로 교체
   #flutter_money_formatter:
   #  git:
   #    url: git://github.com/anisalibegic/flutter_money_formatter.git
   # https://github.com/fadhly-permata/flutter_money_formatter/issues/25
   # flutter_money_formatter: ^0.8.3 
-  flushbar: ^1.10.4
-  shimmer: ^1.1.1  
-  get: ^4.1.4
-  package_info: ^0.4.1
-  settings_ui: ^0.3.0
-  auto_size_text: ^2.1.0
-  font_awesome_flutter: ^8.8.1
-  expandable: ^4.1.4
-  admob_flutter: ^0.3.4
-  share: ^0.6.4+3
-  url_launcher: ^5.4.11
-  flip_card: ^0.4.4
-  fl_chart: ^0.11.0  
-  lazy_data_table: ^0.1.5
-  awesome_dialog: ^1.2.0
+  
+  shimmer: ^2.0.0  
+  get: ^4.6.1
+  package_info: ^2.0.2
+  settings_ui: ^2.0.1
+  auto_size_text: ^3.0.0
+  font_awesome_flutter: ^9.2.0
+  expandable: ^5.0.1
+  admob_flutter: ^2.0.0
+  share: ^2.0.4
+  url_launcher: ^6.0.18
+  flip_card: ^0.6.0
+  fl_chart: ^0.41.0  
+  lazy_data_table: ^0.3.1
+  awesome_dialog: ^2.1.2
   flutter_jk:
     git:
       url: https://github.com/smok95/flutter_jk.git
-      ref: 40eeaeae20f983042b0e27d9d2cfcb7a82abe4eb # 1.8.1
+      ref: 3a8bd58a1cef8550bda7f3db1676b52f70f20592 # 1.11.0
 
 dev_dependencies:
   flutter_test:

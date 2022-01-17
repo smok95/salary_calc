@@ -47,6 +47,7 @@ class SalaryDetailsPage extends StatelessWidget {
                 height: 230,
                 width: double.infinity,
                 child: DeductionGuidePanel(this.data.baseDate)),
+            collapsed: SizedBox.shrink(),
           ),
           // 예상 실수령액(월)
           _buildNetSalary(),
@@ -87,9 +88,9 @@ class SalaryDetailsPage extends StatelessWidget {
       {double labelFontSize = 16,
       double fontSize = 16,
       FontWeight fontWeight = FontWeight.bold,
-      String suffix,
-      Widget labelPrefix,
-      Widget labelSuffix}) {
+      String? suffix,
+      Widget? labelPrefix,
+      Widget? labelSuffix}) {
     if (suffix == null) suffix = '';
     final style = TextStyle(fontWeight: fontWeight, fontSize: fontSize);
     final labelStyle =
@@ -112,8 +113,8 @@ class SalaryDetailsPage extends StatelessWidget {
       double fontSize = 16,
       FontWeight fontWeight = FontWeight.bold,
       String suffix = ' 원',
-      Widget labelPrefix,
-      Widget labelSuffix}) {
+      Widget? labelPrefix,
+      Widget? labelSuffix}) {
     return _buildLabelText(label, _toMoneyString(money),
         suffix: suffix,
         labelFontSize: labelFontSize,

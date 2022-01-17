@@ -4,24 +4,24 @@ import 'package:settings_ui/settings_ui.dart';
 
 import 'my_local.dart';
 
-typedef DarkModeCallback = void Function(bool darkMode);
 typedef SettingChangeCallback = void Function(String name, dynamic value);
 
 class SettingsPage extends StatelessWidget {
-  final DarkModeCallback onToggleDarkMode;
-  final SettingChangeCallback onSettingChange;
+  final SettingChangeCallback? onSettingChange;
 
-  SettingsPage({this.onToggleDarkMode, this.onSettingChange});
+  SettingsPage({this.onSettingChange});
 
   void _fireChange(final String name, dynamic value) {
     if (onSettingChange != null) {
-      onSettingChange(name, value);
+      onSettingChange!(name, value);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final lo = MyLocal.of(context).text;
+    final translator = MyLocal.of(context);
+
+    final lo = translator != null ? translator.text : (value) => value;
 
     return Scaffold(
       appBar: AppBar(
@@ -36,26 +36,26 @@ class SettingsPage extends StatelessWidget {
             tiles: [
               SettingsTile(
                   leading: Icon(Icons.rate_review),
-                  title: lo('rate review'),
-                  onTap: () {
+                  title: Text(lo('rate review')),
+                  onPressed: (context) {
                     _fireChange('rate review', null);
                   }),
               SettingsTile(
                   leading: Icon(Icons.share),
-                  title: lo('share app'),
-                  onTap: () {
+                  title: Text(lo('share app')),
+                  onPressed: (context) {
                     _fireChange('share app', null);
                   }),
               SettingsTile(
                   leading: Icon(Icons.apps),
-                  title: lo('more apps'),
-                  onTap: () {
+                  title: Text(lo('more apps')),
+                  onPressed: (context) {
                     _fireChange('more apps', null);
                   }),
               SettingsTile(
                 leading: Icon(Icons.info_outline),
-                title: lo('app info'),
-                onTap: () async {
+                title: Text(lo('app info')),
+                onPressed: (context) async {
                   PackageInfo packageInfo = await PackageInfo.fromPlatform();
                   showAboutDialog(
                       context: context,
