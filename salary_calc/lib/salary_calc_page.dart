@@ -9,6 +9,7 @@ import 'package:salary_calc/random_message.dart';
 import 'package:salary_calc/salary_details_page.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:vibration/vibration.dart';
+import 'package:awesome_dropdown/awesome_dropdown.dart';
 
 import 'check_label.dart';
 import 'calc/salary_calculator.dart';
@@ -549,7 +550,7 @@ class _SalaryCalcState extends State<SalaryCalcPage> {
 
   /// 20세 이하 자녀 설정 컨트롤
   Widget _buildYoungDependants() {
-    return _buildNumberStepper('20세 이하 자녀 수 ', _data.youngDependants, (value) {
+    return _buildNumberStepper('자녀 수 (7~20세) ', _data.youngDependants, (value) {
       if (value == null) return;
       _vibrate();
 
