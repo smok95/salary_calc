@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - fluter_jk 1.8.1 -> 1.11.0
 - flushbar: ^1.10.4 ==> another_flushbar: ^1.10.28
 
+### Added
+- 2022년 기준 계산 추가
+
 ## 1.3.0 - 2021-05-02
 ### Changed
 - flutter_money_formatter --> money_formatter 로 교체 (최신 환경에 맞지않아서..)

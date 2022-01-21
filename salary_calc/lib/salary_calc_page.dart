@@ -154,7 +154,7 @@ class _SalaryCalcState extends State<SalaryCalcPage> {
   }
 
   bool get _salaryFieldHasFocus {
-    return !(_nontaxableFocusNode?.hasFocus ?? false);
+    return !_nontaxableFocusNode.hasFocus;
   }
 
   /// 현재 포커스를 가진 TextController 리턴
