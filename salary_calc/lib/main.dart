@@ -70,52 +70,61 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final adBanner = _buildAdBanner();
     return Scaffold(
-        resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.white,
-        body: SafeArea(
-            child: Column(
-          children: [
-            Expanded(
-              child: SalaryCalcPage(
-                onOpenSettings: () {
-                  Get.to(SettingsPage(
-                    onSettingChange: (name, value) async {
-                      if (name == 'share app') {
-                        Share.share(MyPrivateData.playStoreUrl);
-                      } else if (name == 'rate review') {
-                        final playstoreUrl = MyPrivateData.playStoreUrl;
-                        if (await canLaunch(playstoreUrl)) {
-                          await launch(playstoreUrl);
-                        }
-                      } else if (name == 'more apps') {
-                        final devPage =
-                            MyPrivateData.googlePlayDeveloperPageUrl;
-                        if (await canLaunch(devPage)) {
-                          await launch(devPage);
-                        }
-                      }
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Builder(
+          builder: (context) {
+            return Column(
+              children: [
+                Expanded(
+                  child: SalaryCalcPage(
+                    onOpenSettings: () {
+                      Get.to(SettingsPage(
+                        onSettingChange: (name, value) async {
+                          if (name == 'share app') {
+                            Share.share(MyPrivateData.playStoreUrl);
+                          } else if (name == 'rate review') {
+                            final playstoreUrl = MyPrivateData.playStoreUrl;
+                            if (await canLaunch(playstoreUrl)) {
+                              await launch(playstoreUrl);
+                            }
+                          } else if (name == 'more apps') {
+                            final devPage =
+                                MyPrivateData.googlePlayDeveloperPageUrl;
+                            if (await canLaunch(devPage)) {
+                              await launch(devPage);
+                            }
+                          }
+                        },
+                      ));
                     },
-                  ));
-                },
-                onOpenSalaryTable: () {
-                  print('연봉 실수령액표 화면을 오픈합니다.');
-                  Get.to(SalaryTable(
-                    adBanner: adBanner,
-                  ));
-                },
-              ),
-            ),
-            adBanner
-          ],
-        )));
+                    onOpenSalaryTable: () {
+                      print('연봉 실수령액표 화면을 오픈합니다.');
+                      Get.to(SalaryTable(
+                        adBanner: _buildAdBanner(context),
+                      ));
+                    },
+                  ),
+                ),
+                _buildAdBanner(context)
+              ],
+            );
+          },
+        ),
+      ),
+    );
   }
 
   /// 광고영역
-  Widget _buildAdBanner() {
+  Widget _buildAdBanner(BuildContext context) {
+    print('광고표시 : ${!MyPrivateData.hideAd}');
     return MyPrivateData.hideAd
         ? SizedBox.shrink()
-        : MyAdmob.createAdmobBanner(adSize: AdmobBannerSize.BANNER);
+        : Ink(
+            child: MyAdmob.createAdmobAdaptiveBanner(context),
+            color: Colors.grey[100],
+          );
   }
 }

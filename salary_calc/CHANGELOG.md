@@ -6,11 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## 1.3.1+6
+## 1.3.1+6 - 2022-01-22
 ### Changed
 - null-safety migration
 - fluter_jk 1.8.1 -> 1.11.0
-- flushbar: ^1.10.4 ==> another_flushbar: ^1.10.28
+- flushbar: ^1.10.4 -> another_flushbar: ^1.10.28
+- android minSdk 29 -> 30
+- 앱아이콘 변경
 
 ### Added
 - 2022년 기준 계산 추가

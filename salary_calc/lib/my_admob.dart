@@ -36,6 +36,13 @@ class MyAdmob {
     return AdmobBanner(adUnitId: unitId2, adSize: adSize);
   }
 
+  /// Admob 배경 생성 (화면크기에 맞게 너비 설정)
+  static AdmobBanner createAdmobAdaptiveBanner(BuildContext context) {
+    final adSize = AdmobBannerSize.ADAPTIVE_BANNER(
+        width: MediaQuery.of(context).size.width.toInt());
+    return AdmobBanner(adUnitId: unitId, adSize: adSize);
+  }
+
   static void initialize() {
     Admob.initialize();
   }
