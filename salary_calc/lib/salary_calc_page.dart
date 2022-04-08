@@ -9,7 +9,6 @@ import 'package:salary_calc/random_message.dart';
 import 'package:salary_calc/salary_details_page.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:vibration/vibration.dart';
-import 'package:awesome_dropdown/awesome_dropdown.dart';
 
 import 'check_label.dart';
 import 'calc/salary_calculator.dart';
@@ -57,10 +56,11 @@ class _SalaryCalcState extends State<SalaryCalcPage> {
     final labelText = this._isAnnualSalary ? '연봉' : '월급';
     final keyboardHeight = 180.0;
 
+    /*
     String moneyString = _data.salary >= 10000
         ? '$labelText ${KrUtils.numberToManwon(_data.salary)}'
         : '';
-
+    */
     return Padding(
         padding: EdgeInsets.only(left: 5, top: 5, right: 5, bottom: 5),
         child: Column(

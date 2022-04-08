@@ -1,7 +1,5 @@
 import 'package:flutter_jk/flutter_jk.dart';
 
-import 'major_insurance_calculator.dart';
-
 class SalaryCalculator {
   /// 계산기준일
   final DateTime baseDate;

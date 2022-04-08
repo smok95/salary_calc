@@ -46,7 +46,6 @@ dependencies:
   auto_size_text: ^3.0.0
   font_awesome_flutter: ^9.2.0
   expandable: ^5.0.1
-  admob_flutter: ^2.0.0
   share: ^2.0.4
   url_launcher: ^6.0.18
   flip_card: ^0.6.0
@@ -56,7 +55,7 @@ dependencies:
   flutter_jk:
     git:
       url: https://github.com/smok95/flutter_jk.git
-      ref: 3a8bd58a1cef8550bda7f3db1676b52f70f20592 # 1.11.0
+      ref: 9ccbfaa88ef628313782a10c25b95d67e17d6dd0 # 1.11.6
 
 dev_dependencies:
   flutter_test:

@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 1.3.2+7 
+### Changed
+- flutter_jk 1.11.0 ==> 1.11.6
+- AndroidManifest.xml 'Full-Flutter app migration' 적용
+- admob_flutter에서 little_easy_admob으로 변경 작업중... 22.04.08
+
+### Removed
+- major_insurance_calculator.dart 삭제 (flutter_jk 참조)
+
 ## 1.3.1+6 - 2022-01-22
 ### Changed
 - null-safety migration
