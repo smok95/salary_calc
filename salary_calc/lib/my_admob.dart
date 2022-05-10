@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' as Foundation;
-import 'package:admob_flutter/admob_flutter.dart';
+import 'package:little_easy_admob/little_easy_admob.dart';
 import 'package:salary_calc/my_private_data.dart';
 
 class MyAdmob {
@@ -18,50 +18,30 @@ class MyAdmob {
 
   static String get appId => MyPrivateData.adMobAppId;
   static String get unitId {
-    return Foundation.kDebugMode ? testAdUnitId : MyPrivateData.AdMobUnitId1;
+    return Foundation.kDebugMode ? testAdUnitId : MyPrivateData.adMobUnitId1;
   }
 
   static String get unitId2 {
-    return Foundation.kDebugMode ? testAdUnitId : MyPrivateData.AdmobUnitId2;
+    return Foundation.kDebugMode ? testAdUnitId : MyPrivateData.adMobUnitId2;
+  }
+
+  static String get unitIdAppOpen {
+    return Foundation.kDebugMode
+        ? 'ca-app-pub-3940256099942544/3419835294'
+        : MyPrivateData.adMobUnitIdAppOpen1;
   }
 
   /// Admob 배너 생성
-  static AdmobBanner createAdmobBanner(
-      {AdmobBannerSize adSize = AdmobBannerSize.FULL_BANNER}) {
-    return AdmobBanner(adUnitId: unitId, adSize: adSize);
+  static Widget createAdmobBanner() {
+    return AnchoredAdaptiveBannerAdWidget(adUnitId: unitId);
   }
 
-  static AdmobBanner createAdmobBanner2(
-      {AdmobBannerSize adSize = AdmobBannerSize.MEDIUM_RECTANGLE}) {
-    return AdmobBanner(adUnitId: unitId2, adSize: adSize);
+  static Widget createAdmobBanner2() {
+    return BannerAdWidget(
+        adUnitId: unitId2, bannerAdSize: BannerAdSize.mediumRectangle);
   }
 
-  /// Admob 배경 생성 (화면크기에 맞게 너비 설정)
-  static AdmobBanner createAdmobAdaptiveBanner(BuildContext context) {
-    final adSize = AdmobBannerSize.ADAPTIVE_BANNER(
-        width: MediaQuery.of(context).size.width.toInt());
-    return AdmobBanner(adUnitId: unitId, adSize: adSize);
-  }
-
-  static void initialize() {
-    Admob.initialize();
-  }
-
-  /// 화면크기에 맞는 배너 높이값을 구한다.
-  double getSmartBannerHeight(BuildContext context) {
-    // 참고페이지 : https://stackoverflow.com/questions/50935918/how-to-get-banner-size-of-smart-banner
-
-    MediaQueryData mediaScreen = MediaQuery.of(context);
-    double deviceHeight = mediaScreen.orientation == Orientation.portrait
-        ? mediaScreen.size.height
-        : mediaScreen.size.width;
-
-    if (deviceHeight <= 400.0) {
-      return 32.0;
-    } else if (deviceHeight > 720.0) {
-      return 90.0;
-    } else {
-      return 50.0;
-    }
+  static Future<void> initialize() async {
+    await LittleEasyAdmob.initialize(requestTrackingAuthorization: true);
   }
 }

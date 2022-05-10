@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
+import 'package:little_easy_admob/little_easy_admob.dart';
 import 'package:salary_calc/salary_table.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -63,9 +64,17 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  Widget? _bannerAd;
   @override
   void initState() {
     super.initState();
+
+    // AppOpen 광고 설정
+    AppOpenAdManager appOpenAdManager = AppOpenAdManager(MyAdmob.unitIdAppOpen)
+      ..loadAd();
+
+    AppLifecycleReactor(appOpenAdManager: appOpenAdManager)
+      ..listenToAppStateChanges();
   }
 
   @override
@@ -76,6 +85,12 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SafeArea(
         child: Builder(
           builder: (context) {
+            if (_bannerAd == null) {
+              setState(() {
+                _bannerAd = MyAdmob.createAdmobBanner();
+              });
+            }
+
             return Column(
               children: [
                 Expanded(
@@ -123,7 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return MyPrivateData.hideAd
         ? SizedBox.shrink()
         : Ink(
-            child: MyAdmob.createAdmobAdaptiveBanner(context),
+            child: _bannerAd,
             color: Colors.grey[100],
           );
   }

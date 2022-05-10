@@ -53,10 +53,7 @@ class SalaryDetailsPage extends StatelessWidget {
           _buildNetSalary(),
           Padding(padding: EdgeInsets.only(bottom: 10)),
           // Admob 배너광고
-          SizedBox(
-            height: _adBanner.adSize.height.toDouble(),
-            child: MyPrivateData.hideAd ? null : _adBanner,
-          )
+          if (!MyPrivateData.hideAd) _adBanner
         ],
       )),
       bottomNavigationBar: TextButton(
