@@ -216,11 +216,11 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "2d0dd83fc395ffc2fb77efb401be632e86b49683"
-      resolved-ref: "2d0dd83fc395ffc2fb77efb401be632e86b49683"
+      ref: "8eae2691e51e3aa788c448d408addc6bfe23edf8"
+      resolved-ref: "8eae2691e51e3aa788c448d408addc6bfe23edf8"
       url: "https://github.com/smok95/little_easy_admob.git"
     source: git
-    version: "0.1.3"
+    version: "0.1.5"
   matcher:
     dependency: transitive
     description:

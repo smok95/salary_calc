@@ -86,9 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Builder(
           builder: (context) {
             if (_bannerAd == null) {
-              setState(() {
-                _bannerAd = MyAdmob.createAdmobBanner();
-              });
+              _bannerAd = MyAdmob.createAdmobBanner();
             }
 
             return Column(
