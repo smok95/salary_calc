@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.3.2+7
+version: 1.3.3+8
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -27,11 +27,12 @@ dependencies:
     sdk: flutter
 
   another_flushbar: ^1.10.28
+  awesome_dialog: ^2.2.1
   awesome_dropdown: ^0.0.4
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.4
-  vibration: ^1.7.4-nullsafety.0
+  vibration: ^1.7.5
   money_formatter: ^0.0.3 # flutter_money_formatter --> money_formatter 로 교체
   #flutter_money_formatter:
   #  git:
@@ -49,9 +50,8 @@ dependencies:
   share: ^2.0.4
   url_launcher: ^6.0.18
   flip_card: ^0.6.0
-  fl_chart: ^0.41.0  
+  fl_chart: ^0.55.1
   lazy_data_table: ^0.3.1
-  awesome_dialog: ^2.1.2
   flutter_jk:
     git:
       url: https://github.com/smok95/flutter_jk.git

@@ -41,6 +41,10 @@ class SalaryDetailsPage extends StatelessWidget {
           FlipCard(
               front: _buildDeductionDetails(), back: SalaryDetailsChart(data)),
 
+          // 예상 실수령액(월)
+          _buildNetSalary(),
+
+          _buildControlBar(),
           ExpandablePanel(
             header: Text(''),
             expanded: SizedBox(
@@ -49,8 +53,6 @@ class SalaryDetailsPage extends StatelessWidget {
                 child: DeductionGuidePanel(this.data.baseDate)),
             collapsed: SizedBox.shrink(),
           ),
-          // 예상 실수령액(월)
-          _buildNetSalary(),
           Padding(padding: EdgeInsets.only(bottom: 10)),
           // Admob 배너광고
           if (!MyPrivateData.hideAd) _adBanner
@@ -176,5 +178,21 @@ class SalaryDetailsPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: children));
+  }
+
+  void _openDetailInfo() {
+    Get.dialog(Card(
+      child: DeductionGuidePanel(this.data.baseDate),
+      margin: EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
+    ));
+  }
+
+  Widget _buildControlBar() {
+    return Row(
+      children: [
+        TextButton(onPressed: () => _openDetailInfo(), child: Text('계산기준')),
+        TextButton(onPressed: null, child: Text('공유하기')),
+      ],
+    );
   }
 }

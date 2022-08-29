@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 1.3.3+8 - 
+### Changed
+- fl_chart: ^0.41.0  -> fl_chart: ^0.55.1
+- vibration: ^1.7.4-nullsafety.0 -> vibration: ^1.7.5
+- awesome_dialog: ^2.1.2 -> awesome_dialog: ^2.2.1
+
 ## 1.3.2+7 - 2022-05-26 (미출시)
 ### Changed
 - flutter_jk 1.11.0 ==> 1.11.7
