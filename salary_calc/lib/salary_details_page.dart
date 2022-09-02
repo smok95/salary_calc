@@ -45,14 +45,6 @@ class SalaryDetailsPage extends StatelessWidget {
           _buildNetSalary(),
 
           _buildControlBar(),
-          ExpandablePanel(
-            header: Text(''),
-            expanded: SizedBox(
-                height: 230,
-                width: double.infinity,
-                child: DeductionGuidePanel(this.data.baseDate)),
-            collapsed: SizedBox.shrink(),
-          ),
           Padding(padding: EdgeInsets.only(bottom: 10)),
           // Admob 배너광고
           if (!MyPrivateData.hideAd) _adBanner
@@ -170,9 +162,12 @@ class SalaryDetailsPage extends StatelessWidget {
 
     children.add(_buildLabelMoneyText('국민연금', data.nationalPension,
         fontWeight: fontWeight));
-    children.add(Divider(color: Colors.black45, thickness: 0.5));
-    children.add(_buildLabelMoneyText('  공제액 합계', data.totalDeduction,
-        labelPrefix: FaIcon(FontAwesomeIcons.chartPie, size: 18)));
+    children.add(Divider(color: Colors.black45, thickness: 1));
+    children.add(_buildLabelMoneyText(
+      '  공제액 합계',
+      data.totalDeduction,
+      labelPrefix: FaIcon(FontAwesomeIcons.chartPie, size: 18),
+    ));
 
     return _roundedBox(Column(
         crossAxisAlignment: CrossAxisAlignment.center,

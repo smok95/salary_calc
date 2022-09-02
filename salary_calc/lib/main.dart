@@ -99,15 +99,16 @@ class _MyHomePageState extends State<MyHomePage> {
                           if (name == 'share app') {
                             Share.share(MyPrivateData.playStoreUrl);
                           } else if (name == 'rate review') {
-                            final playstoreUrl = MyPrivateData.playStoreUrl;
-                            if (await canLaunch(playstoreUrl)) {
-                              await launch(playstoreUrl);
+                            final playstoreUrl =
+                                Uri.parse(MyPrivateData.playStoreUrl);
+                            if (await canLaunchUrl(playstoreUrl)) {
+                              await launchUrl(playstoreUrl);
                             }
                           } else if (name == 'more apps') {
-                            final devPage =
-                                MyPrivateData.googlePlayDeveloperPageUrl;
-                            if (await canLaunch(devPage)) {
-                              await launch(devPage);
+                            final devPage = Uri.parse(
+                                MyPrivateData.googlePlayDeveloperPageUrl);
+                            if (await canLaunchUrl(devPage)) {
+                              await launchUrl(devPage);
                             }
                           }
                         },
