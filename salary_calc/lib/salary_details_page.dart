@@ -1,9 +1,9 @@
-import 'package:expandable/expandable.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:money_formatter/money_formatter.dart';
+import 'package:salary_calc/controller/app_controller.dart';
 import 'package:salary_calc/deduction_guide_listview.dart';
 import 'package:salary_calc/my_admob.dart';
 import 'package:salary_calc/calc/salary_calculator.dart';
@@ -43,8 +43,8 @@ class SalaryDetailsPage extends StatelessWidget {
 
           // 예상 실수령액(월)
           _buildNetSalary(),
-
           _buildControlBar(),
+
           Padding(padding: EdgeInsets.only(bottom: 10)),
           // Admob 배너광고
           if (!MyPrivateData.hideAd) _adBanner
@@ -182,11 +182,26 @@ class SalaryDetailsPage extends StatelessWidget {
     ));
   }
 
+  void _shareResult() {
+    AppController.instance
+        .shareCalcResult(data, salary, isAnnualSalary, includeServerancePay);
+  }
+
   Widget _buildControlBar() {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        TextButton(onPressed: () => _openDetailInfo(), child: Text('계산기준')),
-        TextButton(onPressed: null, child: Text('공유하기')),
+        TextButton.icon(
+            icon: Icon(Icons.info),
+            onPressed: () => _openDetailInfo(),
+            label: Text('안내')),
+        VerticalDivider(
+          width: 1,
+        ),
+        TextButton.icon(
+            icon: Icon(Icons.share_rounded),
+            onPressed: _shareResult,
+            label: Text('공유하기')),
       ],
     );
   }

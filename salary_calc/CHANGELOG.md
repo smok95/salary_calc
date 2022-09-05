@@ -6,7 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## 1.3.3+8 - 
+## 1.3.3+8 - 2022-09-05
+### Added
+- 계산결과 공유 기능 추가
+
 ### Changed
 - fl_chart: ^0.41.0  -> fl_chart: ^0.55.1
 - vibration: ^1.7.4-nullsafety.0 -> vibration: ^1.7.5

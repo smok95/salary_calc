@@ -189,7 +189,7 @@ class _SalaryCalcState extends State<SalaryCalcPage> {
     // 입력값이 없으면 안내화면을 표시한다.
     final showHelp = _data.salary <= 0;
 
-    String message = "${labelText}을 입력해 보세요!";
+    String message = "$labelText을 입력해 보세요!";
 
     if (!_showHelpText && _showCheerUpMessage) {
       _showCheerUpMessage = false;
@@ -435,7 +435,7 @@ class _SalaryCalcState extends State<SalaryCalcPage> {
 
   Widget _buildEasyMoneyButton(int unit) {
     final absValue = unit.abs();
-    final text = '${absValue}만';
+    final text = '$absValue만';
     final iconData = unit < 0 ? Icons.remove : Icons.add;
 
     final size = 15.0;
